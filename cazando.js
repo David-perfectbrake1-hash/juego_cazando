@@ -14,16 +14,20 @@ const ALTO_COMIDA = 50;
 const canvas = document.getElementById("areaJuego");
 const contexto = canvas.getContext("2d");
 
+// Función para dibujar rectangulos (gato y comida)
+function graficarRectangulo(x, y, ancho, alto, color) {
+  contexto.fillStyle = color;
+  contexto.fillRect(x, y, ancho, alto);
+}
+
 // Función para dibujar el gato (rectángulo naranja)
 function graficarGato() {
-  contexto.fillStyle = "orange";
-  contexto.fillRect(gatoX, gatoY, ANCHO_GATO, ALTO_GATO);
+  graficarRectangulo(gatoX, gatoY, ANCHO_GATO, ALTO_GATO, "orange");
 }
 
 // Función para dibujar la comida (rectángulo verde)
 function graficarComida() {
-  contexto.fillStyle = "green";
-  contexto.fillRect(comidaX, comidaY, ANCHO_COMIDA, ALTO_COMIDA);
+  graficarRectangulo(comidaX, comidaY, ANCHO_COMIDA, ALTO_COMIDA, "green");
 }
 
 // Función para iniciar el juego
