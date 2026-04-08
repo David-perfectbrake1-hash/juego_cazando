@@ -1,25 +1,42 @@
-// Obtener canvas por su ID
-const canvas = document.getElementById('areaJuego');
+// Variables globales para la posición del gato y la comida
+let gatoX = 0;
+let gatoY = 0;
+let comidaX = 0;
+let comidaY = 0;
 
-// Obtener el contexto 2D del canvas para dibujar
-const contexto = canvas.getContext('2d');
+// Constantes para el tamaño del gato y la comida
+const ANCHO_GATO = 100;
+const ALTO_GATO = 100;
+const ANCHO_COMIDA = 50;
+const ALTO_COMIDA = 50;
 
-// Función para dibujar el gato (rectángulo centrado)
+// Obtener canvas y contexto
+const canvas = document.getElementById("areaJuego");
+const contexto = canvas.getContext("2d");
+
+// Función para dibujar el gato (rectángulo naranja)
 function graficarGato() {
-    // Obtener el canvas y su contexto
-    let canvas = document.getElementById('areaJuego');
-    let contexto = canvas.getContext('2d');
+  contexto.fillStyle = "orange";
+  contexto.fillRect(gatoX, gatoY, ANCHO_GATO, ALTO_GATO);
+}
 
-    // Definir las dimensiones del gato (rectángulo)
-    let anchoGato = 50;
-    let altoGato = 50;
+// Función para dibujar la comida (rectángulo verde)
+function graficarComida() {
+  contexto.fillStyle = "green";
+  contexto.fillRect(comidaX, comidaY, ANCHO_COMIDA, ALTO_COMIDA);
+}
 
-    // Calcular la posición para centrar el gato en el canvas
-    let xGato = (canvas.width - anchoGato) / 2;
-    let yGato = (canvas.height - altoGato) / 2;
+// Función para iniciar el juego
+function iniciarJuego() {
+    // Centrar el gato en el canvas
+    gatoX = (canvas.width - ANCHO_GATO) / 2;
+    gatoY = (canvas.height - ALTO_GATO) / 2;
 
-    // Dibujar el gato (rectángulo)
-    contexto.fillStyle = 'orange';
-    contexto.fillRect(xGato, yGato, anchoGato, altoGato);
+    // Colocar la comida en la esquina inferior derecha
+    comidaX = canvas.width - ANCHO_COMIDA - 10;
+    comidaY = canvas.height - ALTO_COMIDA - 10;
 
+    // Dibujar el gato y la comida
+    graficarGato();
+    graficarComida();
 }
