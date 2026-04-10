@@ -44,3 +44,15 @@ function iniciarJuego() {
     graficarGato();
     graficarComida();
 }
+
+function limpiarCanvas() {
+    contexto.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function moverIzquierda() {
+    gatoX -= 10;
+    //actualizarJuego();
+    limpiarCanvas();
+    graficarGato();
+    graficarComida();
+}
