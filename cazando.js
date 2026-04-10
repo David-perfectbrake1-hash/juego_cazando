@@ -1,23 +1,28 @@
-// Variables globales para la posición del gato y la comida
 let gatoX = 0;
 let gatoY = 0;
+
 let comidaX = 0;
 let comidaY = 0;
+
+let puntaje = 0;
 
 // Constantes para el tamaño del gato y la comida
 const ANCHO_GATO = 100;
 const ALTO_GATO = 100;
+
 const ANCHO_COMIDA = 50;
 const ALTO_COMIDA = 50;
 
 // Obtener canvas y contexto
-const canvas = document.getElementById("areaJuego");
-const contexto = canvas.getContext("2d");
+const CANVAS = document.getElementById("areaJuego");
+const CTX = CANVAS.getContext("2d");
+
+const MOVER_GATO = 100;
 
 // Función para dibujar rectangulos (gato y comida)
 function graficarRectangulo(x, y, ancho, alto, color) {
-  contexto.fillStyle = color;
-  contexto.fillRect(x, y, ancho, alto);
+  CTX.fillStyle = color;
+  CTX.fillRect(x, y, ancho, alto);
 }
 
 // Función para dibujar el gato (rectángulo naranja)
@@ -33,12 +38,12 @@ function graficarComida() {
 // Función para iniciar el juego
 function iniciarJuego() {
     // Centrar el gato en el canvas
-    gatoX = (canvas.width - ANCHO_GATO) / 2;
-    gatoY = (canvas.height - ALTO_GATO) / 2;
+    gatoX = (CANVAS.width - ANCHO_GATO) / 2;
+    gatoY = (CANVAS.height - ALTO_GATO) / 2;
 
     // Colocar la comida en la esquina inferior derecha
-    comidaX = canvas.width - ANCHO_COMIDA - 10;
-    comidaY = canvas.height - ALTO_COMIDA - 10;
+    comidaX = CANVAS.width - ANCHO_COMIDA - 10;
+    comidaY = CANVAS.height - ALTO_COMIDA - 10;
 
     // Dibujar el gato y la comida
     graficarGato();
@@ -46,12 +51,12 @@ function iniciarJuego() {
 }
 
 function limpiarCanvas() {
-    contexto.clearRect(0, 0, canvas.width, canvas.height);
+    CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
 }
 
 function moverIzquierda() {
-    gatoX -= 10;
-    //actualizarJuego();
+    gatoX -= MOVER_GATO;
+
     limpiarCanvas();
     graficarGato();
     graficarComida();
@@ -59,8 +64,8 @@ function moverIzquierda() {
 }
 
 function moverDerecha() {
-    gatoX += 10;
-    //actualizarJuego();
+    gatoX += MOVER_GATO;
+
     limpiarCanvas();
     graficarGato();
     graficarComida();
@@ -68,8 +73,8 @@ function moverDerecha() {
 }
 
 function moverArriba() {
-    gatoY -= 10;
-    //actualizarJuego();
+    gatoY -= MOVER_GATO;
+
     limpiarCanvas();
     graficarGato();
     graficarComida();
@@ -77,8 +82,8 @@ function moverArriba() {
 }
 
 function moverAbajo() {
-    gatoY += 10;
-    //actualizarJuego();
+    gatoY += MOVER_GATO;
+
     limpiarCanvas();
     graficarGato();
     graficarComida();
@@ -96,6 +101,15 @@ function detectarColision() {
         gatoY + ALTO_GATO > comidaY
     ) {
         alert("¡El gato ha atrapado la comida!");
-        //iniciarJuego();
+  
+        puntaje++;
+        mostrarEnSpan("puntos", puntaje);
+
+        comidaX =  generarAleatorio(0, CANVAS.width - ANCHO_COMIDA);
+        comidaY =  generarAleatorio(0, CANVAS.height - ALTO_COMIDA);
+
+        limpiarCanvas();
+        graficarGato();
+        graficarComida();
       }
 }
