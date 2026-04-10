@@ -56,3 +56,27 @@ function moverIzquierda() {
     graficarGato();
     graficarComida();
 }
+
+function moverDerecha() {
+    gatoX += 10;
+    //actualizarJuego();
+    limpiarCanvas();
+    graficarGato();
+    graficarComida();
+}
+
+function moverArriba() {
+    gatoY -= 10;
+    //actualizarJuego();
+    limpiarCanvas();
+    graficarGato();
+    graficarComida();
+}
+
+function moverAbajo() {
+    gatoY += 10;
+    //actualizarJuego();
+    limpiarCanvas();
+    graficarGato();
+    graficarComida();
+}
