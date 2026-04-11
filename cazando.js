@@ -8,6 +8,8 @@ let puntaje = 0;
 
 let tiempo = 10;
 
+let intervaloTiempo;
+
 const ANCHO_GATO = 100;
 const ALTO_GATO = 100;
 
@@ -18,7 +20,7 @@ const ALTO_COMIDA = 50;
 const CANVAS = document.getElementById("areaJuego");
 const CTX = CANVAS.getContext("2d");
 
-const MOVER_GATO = 100;
+const MOVER_GATO = 10;
 
 // Función para dibujar rectangulos (gato y comida)
 function graficarRectangulo(x, y, ancho, alto, color) {
@@ -49,7 +51,7 @@ function iniciarJuego() {
     graficarGato();
     graficarComida();
 
-    setInterval(restarTiempo, 1000);
+    intervaloTiempo = setInterval(restarTiempo, 1000); 
 }
 
 function limpiarCanvas() {
@@ -107,6 +109,11 @@ function detectarColision() {
         puntaje++;
         mostrarEnSpan("puntos", puntaje);
 
+        if (puntaje >= 6) {
+            clearInterval(intervaloTiempo);
+            alert("¡Felicidades Ganaste!" + "\nTu tiempo fue de: " + tiempo);
+        }
+
         comidaX =  generarAleatorio(0, CANVAS.width - ANCHO_COMIDA);
         comidaY =  generarAleatorio(0, CANVAS.height - ALTO_COMIDA);
 
@@ -119,4 +126,22 @@ function detectarColision() {
 function restarTiempo() {
     tiempo--;
     mostrarEnSpan("tiempo", tiempo);
+
+    if (tiempo <= 0) {
+        clearInterval(intervaloTiempo);
+        alert("¡Se acabó el tiempo! Tu puntaje final es: " + puntaje);
+    }
+}
+
+function reiniciarJuego() {
+    clearInterval(intervaloTiempo);
+
+    puntaje = 0;
+    tiempo = 10;
+    
+    mostrarEnSpan("puntos", puntaje);
+    mostrarEnSpan("tiempo", tiempo);
+    
+    limpiarCanvas();
+    iniciarJuego();
 }
