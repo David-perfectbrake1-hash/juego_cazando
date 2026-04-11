@@ -6,7 +6,8 @@ let comidaY = 0;
 
 let puntaje = 0;
 
-// Constantes para el tamaño del gato y la comida
+let tiempo = 10;
+
 const ANCHO_GATO = 100;
 const ALTO_GATO = 100;
 
@@ -45,9 +46,10 @@ function iniciarJuego() {
     comidaX = CANVAS.width - ANCHO_COMIDA - 10;
     comidaY = CANVAS.height - ALTO_COMIDA - 10;
 
-    // Dibujar el gato y la comida
     graficarGato();
     graficarComida();
+
+    setInterval(restarTiempo, 1000);
 }
 
 function limpiarCanvas() {
@@ -112,4 +114,9 @@ function detectarColision() {
         graficarGato();
         graficarComida();
       }
+}
+
+function restarTiempo() {
+    tiempo--;
+    mostrarEnSpan("tiempo", tiempo);
 }
