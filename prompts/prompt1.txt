@@ -1,0 +1,6 @@
+Tengo este código HTML y CSS de un juego. 
+Por favor, rediseña el CSS para que se vea moderno y oscuro, 
+con fuentes de videojuegos de Google Fonts. 
+Mantén el ID del canvas como 'areaJuego' 
+y no generes código JavaScript, 
+ya que tengo prohibido modificarlo.

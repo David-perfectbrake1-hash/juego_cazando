@@ -1,4 +1,56 @@
 <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego Cazando - Edición Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cazando.css">
+</head>
+<body onload="iniciarJuego()">
+
+  <div class="main-container">
+    <header>
+      <h1>JUEGO CAZANDO</h1>
+      <p class="author">Developed by: <span>David_RS</span></p>
+    </header>
+
+    <div class="game-wrapper">
+      <canvas id="areaJuego" width="500" height="500"></canvas>
+      
+      <div class="ui-panel">
+        <div class="stat-box">
+          <label>PUNTOS</label>
+          <span id="puntos">0</span>
+        </div>
+        <div class="stat-box">
+          <label>TIEMPO</label>
+          <span id="tiempo">10</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-section">
+      <div class="d-pad">
+        <button class="btn-dir up" onclick="moverArriba()">▲</button>
+        <div class="middle-row">
+          <button class="btn-dir left" onclick="moverIzquierda()">◀</button>
+          <button class="btn-dir down" onclick="moverAbajo()">▼</button>
+          <button class="btn-dir right" onclick="moverDerecha()">▶</button>
+        </div>
+      </div>
+      
+      <button class="btn-restart" onclick="reiniciarJuego()">REINICIAR PARTIDA</button>
+    </div>
+
+    <p id="mensaje"></p>
+  </div>
+
+  <script src="cazando.js"></script>
+  <script src="utils.js"></script>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
 <html>
 <head>
   <title>Juego Cazando</title>
@@ -10,7 +62,6 @@
   <h1>Juego Cazando</h1>
   <p>Autor: David_RS</p>
 
-  <!-- Canvas -->
   <Canvas id="areaJuego" width="500" height="500"></Canvas>
 
   <div class="controles">
@@ -34,4 +85,5 @@
   <script src="cazando.js"></script>
   <script src="utils.js"></script>
 </body>
-</html>
+</html> -->
+
