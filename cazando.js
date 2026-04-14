@@ -10,6 +10,8 @@ let tiempo = 10;
 
 let intervaloTiempo;
 
+let juegoTerminado = false;
+
 const ANCHO_GATO = 50;
 const ALTO_GATO = 50;
 
@@ -95,34 +97,42 @@ function moverAbajo() {
 }
 
 function detectarColision() {
+    if (juegoTerminado) return; // 🚫 Si ya ganó o perdió, ignora más colisiones
+
     if (
         gatoX < comidaX + ANCHO_COMIDA &&
         gatoX + ANCHO_GATO > comidaX &&
         gatoY < comidaY + ALTO_COMIDA &&
         gatoY + ALTO_GATO > comidaY
     ) {
-        // ✅ Notificación flotante
         mostrarNotificacion("🐱 ¡ÑAM! +1 punto");
-        
         puntaje++;
         mostrarEnSpan("puntos", puntaje);
 
-        if (puntaje >= 6) {
+        if (puntaje === 6) { // ✅ Límite exacto
+            juegoTerminado = true; // 🔒 Activa el candado
             clearInterval(intervaloTiempo);
             mostrarFinJuego(
                 "🏆 ¡Felicidades, Ganaste!",
                 `Puntaje final: ${puntaje}\n¡Eres un cazador experto!`
             );
-            return; // ⚠️ Clave: evita que se reinicie el tiempo después de ganar
+            return;
         }
 
-        // ✅ Reiniciar tiempo a 10 segundos
+        // ✅ Reiniciar tiempo
         tiempo = 10;
         mostrarEnSpan("tiempo", tiempo);
 
-        // Nueva posición para la comida
-        comidaX = generarAleatorio(0, CANVAS.width - ANCHO_COMIDA);
-        comidaY = generarAleatorio(0, CANVAS.height - ALTO_COMIDA);
+        // 🔄 Generar comida en posición VÁLIDA (nunca encima del gato)
+        do {
+            comidaX = generarAleatorio(0, CANVAS.width - ANCHO_COMIDA);
+            comidaY = generarAleatorio(0, CANVAS.height - ALTO_COMIDA);
+        } while (
+            comidaX < gatoX + ANCHO_GATO &&
+            comidaX + ANCHO_COMIDA > gatoX &&
+            comidaY < gatoY + ALTO_GATO &&
+            comidaY + ALTO_COMIDA > gatoY
+        );
 
         limpiarCanvas();
         graficarGato();
@@ -146,6 +156,8 @@ function restarTiempo() {
 
 function reiniciarJuego() {
     clearInterval(intervaloTiempo);
+
+    juegoTerminado = false;
 
     puntaje = 0;
     tiempo = 10;
