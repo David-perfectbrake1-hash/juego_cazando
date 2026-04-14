@@ -10,11 +10,11 @@ let tiempo = 10;
 
 let intervaloTiempo;
 
-const ANCHO_GATO = 100;
-const ALTO_GATO = 100;
+const ANCHO_GATO = 50;
+const ALTO_GATO = 50;
 
-const ANCHO_COMIDA = 50;
-const ALTO_COMIDA = 50;
+const ANCHO_COMIDA = 20;
+const ALTO_COMIDA = 20;
 
 // Obtener canvas y contexto
 const CANVAS = document.getElementById("areaJuego");
@@ -41,12 +41,12 @@ function graficarComida() {
 // Función para iniciar el juego
 function iniciarJuego() {
     // Centrar el gato en el canvas
-    gatoX = (CANVAS.width - ANCHO_GATO) / 2;
-    gatoY = (CANVAS.height - ALTO_GATO) / 2;
+    gatoX = generarAleatorio(0, CANVAS.width - ANCHO_GATO);
+    gatoY = generarAleatorio(0, CANVAS.height - ALTO_GATO);
 
     // Colocar la comida en la esquina inferior derecha
-    comidaX = CANVAS.width - ANCHO_COMIDA - 10;
-    comidaY = CANVAS.height - ALTO_COMIDA - 10;
+    comidaX = generarAleatorio(0, CANVAS.width - ANCHO_COMIDA);
+    comidaY = generarAleatorio(0, CANVAS.height - ALTO_COMIDA);
 
     graficarGato();
     graficarComida();
@@ -145,3 +145,19 @@ function reiniciarJuego() {
     limpiarCanvas();
     iniciarJuego();
 }
+
+// 🎮 Control del gato con flechas del teclado
+document.addEventListener('keydown', (evento) => {
+    // Evita que el navegador haga scroll al usar las flechas
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(evento.key)) {
+        evento.preventDefault();
+    }
+    
+    // Ejecuta la función de movimiento según la tecla presionada
+    switch (evento.key) {
+        case 'ArrowLeft':  moverIzquierda(); break;
+        case 'ArrowRight': moverDerecha();   break;
+        case 'ArrowUp':    moverArriba();    break;
+        case 'ArrowDown':  moverAbajo();     break;
+    }
+});
