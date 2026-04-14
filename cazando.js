@@ -101,7 +101,7 @@ function detectarColision() {
         gatoY < comidaY + ALTO_COMIDA &&
         gatoY + ALTO_GATO > comidaY
     ) {
-        // ✅ Notificación flotante en lugar de alert
+        // ✅ Notificación flotante
         mostrarNotificacion("🐱 ¡ÑAM! +1 punto");
         
         puntaje++;
@@ -109,14 +109,18 @@ function detectarColision() {
 
         if (puntaje >= 6) {
             clearInterval(intervaloTiempo);
-            // ✅ Modal de victoria
             mostrarFinJuego(
                 "🏆 ¡Felicidades, Ganaste!",
-                `Puntaje final: ${puntaje}\nTiempo restante: ${tiempo} segundos`
+                `Puntaje final: ${puntaje}\n¡Eres un cazador experto!`
             );
-            return;
+            return; // ⚠️ Clave: evita que se reinicie el tiempo después de ganar
         }
 
+        // ✅ Reiniciar tiempo a 10 segundos
+        tiempo = 10;
+        mostrarEnSpan("tiempo", tiempo);
+
+        // Nueva posición para la comida
         comidaX = generarAleatorio(0, CANVAS.width - ANCHO_COMIDA);
         comidaY = generarAleatorio(0, CANVAS.height - ALTO_COMIDA);
 
