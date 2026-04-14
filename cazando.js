@@ -96,40 +96,47 @@ function moverAbajo() {
 
 function detectarColision() {
     if (
-        gatoX < comidaX + ANCHO_COMIDA 
-        &&
-        gatoX + ANCHO_GATO > comidaX 
-        &&
-        gatoY < comidaY + ALTO_COMIDA 
-        &&
+        gatoX < comidaX + ANCHO_COMIDA &&
+        gatoX + ANCHO_GATO > comidaX &&
+        gatoY < comidaY + ALTO_COMIDA &&
         gatoY + ALTO_GATO > comidaY
     ) {
-        alert("¡El gato ha atrapado la comida!");
-  
+        // ✅ Notificación flotante en lugar de alert
+        mostrarNotificacion("🐱 ¡ÑAM! +1 punto");
+        
         puntaje++;
         mostrarEnSpan("puntos", puntaje);
 
         if (puntaje >= 6) {
             clearInterval(intervaloTiempo);
-            alert("¡Felicidades Ganaste!" + "\nTu tiempo fue de: " + tiempo);
+            // ✅ Modal de victoria
+            mostrarFinJuego(
+                "🏆 ¡Felicidades, Ganaste!",
+                `Puntaje final: ${puntaje}\nTiempo restante: ${tiempo} segundos`
+            );
+            return;
         }
 
-        comidaX =  generarAleatorio(0, CANVAS.width - ANCHO_COMIDA);
-        comidaY =  generarAleatorio(0, CANVAS.height - ALTO_COMIDA);
+        comidaX = generarAleatorio(0, CANVAS.width - ANCHO_COMIDA);
+        comidaY = generarAleatorio(0, CANVAS.height - ALTO_COMIDA);
 
         limpiarCanvas();
         graficarGato();
         graficarComida();
-      }
+    }
 }
 
 function restarTiempo() {
     tiempo--;
     mostrarEnSpan("tiempo", tiempo);
-
+    
     if (tiempo <= 0) {
         clearInterval(intervaloTiempo);
-        alert("¡Se acabó el tiempo! Tu puntaje final es: " + puntaje);
+        // ✅ Modal de derrota
+        mostrarFinJuego(
+            "⏰ ¡Se acabó el tiempo!",
+            `Puntaje final: ${puntaje}\n¡Inténtalo de nuevo!`
+        );
     }
 }
 
@@ -161,3 +168,24 @@ document.addEventListener('keydown', (evento) => {
         case 'ArrowDown':  moverAbajo();     break;
     }
 });
+
+// 🎯 Notificación flotante (reemplaza alert de "comida atrapada")
+function mostrarNotificacion(mensaje) {
+    const notif = document.getElementById("notificacion");
+    notif.textContent = mensaje;
+    notif.classList.add("mostrar");
+    setTimeout(() => notif.classList.remove("mostrar"), 1000);
+}
+
+// 🏆 Modal de fin de juego (reemplaza alert de victoria/derrota)
+function mostrarFinJuego(titulo, mensaje) {
+    document.getElementById("tituloModal").textContent = titulo;
+    document.getElementById("mensajeModal").textContent = mensaje;
+    document.getElementById("modalFinJuego").classList.add("activo");
+}
+
+// 🔄 Reiniciar desde el modal
+function cerrarModalYReiniciar() {
+    document.getElementById("modalFinJuego").classList.remove("activo");
+    reiniciarJuego();
+}
