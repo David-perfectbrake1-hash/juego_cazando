@@ -36,13 +36,19 @@ function graficarComida() {
 
 // 🔹 INICIALIZACIÓN
 function iniciarJuego() {
+    // 1. Posicionar gato
     gatoX = generarAleatorio(0, CANVAS.width - ANCHO_GATO);
     gatoY = generarAleatorio(0, CANVAS.height - ALTO_GATO);
-    comidaX = generarAleatorio(0, CANVAS.width - ANCHO_COMIDA);
-    comidaY = generarAleatorio(0, CANVAS.height - ALTO_COMIDA);
 
+    // 2. Posicionar comida ASEGURANDO que no esté sobre el gato desde el inicio
+    validarEspacioComida();
+
+    // 3. Dibujar inmediatamente
+    limpiarCanvas();
     graficarGato();
     graficarComida();
+
+    // 4. Iniciar tiempo
     intervaloTiempo = setInterval(restarTiempo, 1000);
 }
 
@@ -110,15 +116,7 @@ function detectarColision() {
         mostrarEnSpan("tiempo", tiempo);
 
         // 🔄 Generar comida en posición VÁLIDA (nunca encima del gato)
-        do {
-            comidaX = generarAleatorio(0, CANVAS.width - ANCHO_COMIDA);
-            comidaY = generarAleatorio(0, CANVAS.height - ALTO_COMIDA);
-        } while (
-            comidaX < gatoX + ANCHO_GATO &&
-            comidaX + ANCHO_COMIDA > gatoX &&
-            comidaY < gatoY + ALTO_GATO &&
-            comidaY + ALTO_COMIDA > gatoY
-        );
+        validarEspacioComida();
 
         limpiarCanvas();
         graficarGato();
@@ -202,4 +200,17 @@ function mostrarFinJuego(titulo, mensaje) {
 function cerrarModalYReiniciar() {
     document.getElementById("modalFinJuego").classList.remove("activo");
     reiniciarJuego();
+}
+
+function validarEspacioComida() {
+    // Verificar que la comida no se genere sobre el gato
+    do {
+            comidaX = generarAleatorio(0, CANVAS.width - ANCHO_COMIDA);
+            comidaY = generarAleatorio(0, CANVAS.height - ALTO_COMIDA);
+        } while (
+            comidaX < gatoX + ANCHO_GATO &&
+            comidaX + ANCHO_COMIDA > gatoX &&
+            comidaY < gatoY + ALTO_GATO &&
+            comidaY + ALTO_COMIDA > gatoY
+        );
 }
