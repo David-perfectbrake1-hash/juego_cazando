@@ -118,4 +118,32 @@ canvas {
   margin-top: 20px;
 }
 
-/* fin */
+/* Mensaje de ayuda inicial */
+#mensaje {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 11px;
+    color: var(--accent-color);
+    margin: 10px auto 15px;
+    text-align: center;
+    opacity: 0.85;
+    
+    /* ✅ Animación de pulso al inicio */
+    animation: pulso-hint 2.5s infinite ease-in-out;
+    
+    /* ✅ Transición suave para cuando se oculte */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* ✅ ESTA ERA LA PIEZA FALTANTE: Clase que JS activa para desvanecer */
+.hint-oculta {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    animation: none;  /* ← Detiene la animación que mantenía visible el texto */
+}
+
+/* ✅ Keyframes para el pulso */
+@keyframes pulso-hint {
+    0%, 100% { opacity: 0.85; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 6px var(--accent-color); }
+}

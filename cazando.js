@@ -12,6 +12,8 @@ let intervaloTiempo;
 
 let juegoTerminado = false;
 
+let hintMostrada = false; // 🔑 ESTO FALTABA: Declara la variable
+
 const ANCHO_GATO = 50;
 const ALTO_GATO = 50;
 
@@ -159,6 +161,10 @@ function reiniciarJuego() {
 
     juegoTerminado = false;
 
+    hintMostrada = false; // 🔄 Reiniciar el estado del hint
+    const mensaje = document.getElementById("mensaje");
+    if (mensaje) mensaje.classList.remove("hint-oculta");
+
     puntaje = 0;
     tiempo = 10;
     
@@ -171,6 +177,13 @@ function reiniciarJuego() {
 
 // 🎮 Control del gato con flechas del teclado
 document.addEventListener('keydown', (evento) => {
+    // Ocultar mensaje en la primera pulsación de flecha
+    if (!hintMostrada && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(evento.key)) {
+        const mensaje = document.getElementById("mensaje");
+        if (mensaje) mensaje.classList.add("hint-oculta");
+        hintMostrada = true;
+    }
+
     // Evita que el navegador haga scroll al usar las flechas
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(evento.key)) {
         evento.preventDefault();
@@ -190,7 +203,7 @@ function mostrarNotificacion(mensaje) {
     const notif = document.getElementById("notificacion");
     notif.textContent = mensaje;
     notif.classList.add("mostrar");
-    setTimeout(() => notif.classList.remove("mostrar"), 1000);
+    setTimeout(() => notif.classList.remove("mostrar"), 2000);
 }
 
 // 🏆 Modal de fin de juego (reemplaza alert de victoria/derrota)
