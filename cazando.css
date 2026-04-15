@@ -1,9 +1,15 @@
+/* ========================================
+   TEMA Y VARIABLES GLOBALES
+   ======================================== */
 :root {
   --primary-color: #00ffcc;
   --bg-dark: rgba(20, 20, 30, 0.9);
   --accent-color: #ff0055;
 }
 
+/* ========================================
+   CUERPO Y FONDO
+   ======================================== */
 body {
   margin: 0;
   padding: 0;
@@ -19,6 +25,9 @@ body {
   color: white;
 }
 
+/* ========================================
+   CONTENEDOR PRINCIPAL
+   ======================================== */
 .main-container {
   background: var(--bg-dark);
   padding: 30px;
@@ -35,6 +44,9 @@ h1 {
   text-shadow: 2px 2px 5px rgba(0, 255, 204, 0.4);
 }
 
+/* ========================================
+   ÁREA DE JUEGO (CANVAS)
+   ======================================== */
 .game-wrapper {
   position: relative;
   margin: 20px auto;
@@ -47,6 +59,9 @@ canvas {
   box-shadow: 0 0 15px rgba(0,0,0,1);
 }
 
+/* ========================================
+   PANEL DE ESTADÍSTICAS (PUNTOS/TIEMPO)
+   ======================================== */
 .ui-panel {
   display: flex;
   justify-content: space-around;
@@ -72,7 +87,9 @@ canvas {
   font-size: 18px;
 }
 
-/* Estilo para los botones de dirección (D-Pad) */
+/* ========================================
+   CONTROLES (BOTONES DE DIRECCIÓN)
+   ======================================== */
 .controls-section {
   margin-top: 25px;
 }
@@ -93,6 +110,9 @@ canvas {
   color: black;
 }
 
+/* ========================================
+   BOTÓN DE REINICIAR
+   ======================================== */
 .btn-restart {
   margin-top: 20px;
   background: var(--accent-color);
@@ -111,39 +131,141 @@ canvas {
   box-shadow: 0 0 15px var(--accent-color);
 }
 
+/* ========================================
+   MENSAJE DE AYUDA (HINT DE TECLADO) ✅ CORREGIDO
+   ======================================== */
 #mensaje {
   font-family: 'Press Start 2P', cursive;
-  font-size: 14px;
+  font-size: 11px;
   color: var(--accent-color);
-  margin-top: 20px;
+  margin: 10px auto 15px;
+  text-align: center;
+  opacity: 0.85;
+  
+  /* ✅ Animación de pulso al cargar la página */
+  animation: pulso-hint 2.5s infinite ease-in-out;
+  
+  /* ✅ Transición suave para cuando se oculte */
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* Mensaje de ayuda inicial */
-#mensaje {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 11px;
-    color: var(--accent-color);
-    margin: 10px auto 15px;
-    text-align: center;
-    opacity: 0.85;
-    
-    /* ✅ Animación de pulso al inicio */
-    animation: pulso-hint 2.5s infinite ease-in-out;
-    
-    /* ✅ Transición suave para cuando se oculte */
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-/* ✅ ESTA ERA LA PIEZA FALTANTE: Clase que JS activa para desvanecer */
+/* ✅ Clase que JS activa para desvanecer el mensaje */
 .hint-oculta {
-    opacity: 0;
-    transform: translateY(-10px);
-    pointer-events: none;
-    animation: none;  /* ← Detiene la animación que mantenía visible el texto */
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
 }
 
-/* ✅ Keyframes para el pulso */
+/* ✅ Keyframes para el efecto de pulso */
 @keyframes pulso-hint {
-    0%, 100% { opacity: 0.85; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 6px var(--accent-color); }
+  0%, 100% { 
+    opacity: 0.85; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.02); 
+    text-shadow: 0 0 6px var(--accent-color); 
+  }
+}
+
+/* ========================================
+   NOTIFICACIÓN FLOTANTE (al comer)
+   ======================================== */
+.notificacion {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1000;
+  text-align: center;
+}
+
+.notificacion.mostrar {
+  opacity: 1;
+  animation: flotar 2s ease-in-out;
+}
+
+@keyframes flotar {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.05); }
+}
+
+/* ========================================
+   MODAL DE FIN DE JUEGO
+   ======================================== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay.activo {
+  display: flex;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; } 
+  to { opacity: 1; }
+}
+
+.modal-contenido {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 35px;
+  border-radius: 20px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+  animation: slideIn 0.3s ease;
+  max-width: 420px;
+  margin: 20px;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-contenido h2 {
+  margin: 0 0 15px 0;
+  font-size: 28px;
+}
+
+.modal-contenido p {
+  font-size: 18px;
+  margin: 0 0 25px 0;
+  line-height: 1.4;
+}
+
+.btn-reiniciar {
+  background: white;
+  color: #667eea;
+  border: none;
+  padding: 12px 35px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-reiniciar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
 }

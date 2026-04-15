@@ -1,158 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Juego Cazando - Edición Pro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="cazando.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego Cazando - Edición Pro</title>
+    
+    <!-- Google Fonts: Tipografía retro + UI moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cazando.css">
 </head>
-<body onload="iniciarJuego()">
-
-  <div class="main-container">
-    <header>
-      <h1>JUEGO CAZANDO</h1>
-      <p class="author">Developed by: <span>David_RS</span></p>
-    </header>
-
-    <div class="game-wrapper">
-      <canvas id="areaJuego" width="500" height="500"></canvas>
-      
-      <p id="mensaje" class="hint-teclado">
-      💡 Usa las flechas del teclado ▲ ◀ ▼ ▶ para mover al gato
-    </p>
-
-      <div class="ui-panel">
-        <div class="stat-box">
-          <label>PUNTOS</label>
-          <span id="puntos">0</span>
+<body>
+    <div class="main-container">
+        <h1>JUEGO CAZANDO</h1>
+        <p style="font-size: 12px; color: #aaa; margin-bottom: 10px;">Developed by: David_RS</p>
+        
+        <div class="game-wrapper">
+            <canvas id="areaJuego" width="500" height="500"></canvas>
+            <!-- 💡 Mensaje de ayuda justo debajo del canvas -->
+            <p id="mensaje">💡 Usa las flechas del teclado ▲ ◀ ▼ ▶ para mover al gato</p>
         </div>
-        <div class="stat-box">
-          <label>TIEMPO</label>
-          <span id="tiempo">10</span>
+
+        <!-- Panel de estadísticas -->
+        <div class="ui-panel">
+            <div class="stat-box">
+                <label>PUNTOS</label>
+                <span id="puntos">0</span>
+            </div>
+            <div class="stat-box">
+                <label>TIEMPO</label>
+                <span id="tiempo">10</span>
+            </div>
         </div>
-      </div>
+
+        <!-- Controles táctiles / D-Pad -->
+        <div class="controls-section">
+            <button class="btn-dir" onclick="moverArriba()">▲</button>
+            <div style="margin: 10px 0;">
+                <button class="btn-dir" onclick="moverIzquierda()">◀</button>
+                <button class="btn-dir" onclick="moverDerecha()">▶</button>
+            </div>
+            <button class="btn-dir" onclick="moverAbajo()">▼</button>
+        </div>
+
+        <button class="btn-restart" onclick="reiniciarJuego()">REINICIAR PARTIDA</button>
     </div>
 
-    <div class="controls-section">
-      <div class="d-pad">
-        <button class="btn-dir up" onclick="moverArriba()">▲</button>
-        <div class="middle-row">
-          <button class="btn-dir left" onclick="moverIzquierda()">◀</button>
-          <button class="btn-dir down" onclick="moverAbajo()">▼</button>
-          <button class="btn-dir right" onclick="moverDerecha()">▶</button>
+    <!-- 🎯 Notificación flotante (aparece al comer) -->
+    <div id="notificacion" class="notificacion"></div>
+
+    <!-- 🏆 Modal de fin de juego (victoria o derrota) -->
+    <div id="modalFinJuego" class="modal-overlay">
+        <div class="modal-contenido">
+            <h2 id="tituloModal"></h2>
+            <p id="mensajeModal"></p>
+            <button onclick="cerrarModalYReiniciar()" class="btn-reiniciar">🔄 Jugar de Nuevo</button>
         </div>
-      </div>
-      
-      <button class="btn-restart" onclick="reiniciarJuego()">REINICIAR PARTIDA</button>
     </div>
 
-    <!-- <p id="mensaje"></p> -->
-
-  </div>
-
-  <script src="utils.js"></script>
-  <script src="cazando.js"></script>
-  
-    <!-- 🎨 Notificación flotante y Modal -->
-  <div id="notificacion" class="notificacion"></div>
-
-  <div id="modalFinJuego" class="modal-overlay">
-      <div class="modal-contenido">
-          <h2 id="tituloModal"></h2>
-          <p id="mensajeModal"></p>
-          <button onclick="cerrarModalYReiniciar()" class="btn-reiniciar">🔄 Jugar de Nuevo</button>
-      </div>
-  </div>
-
-  <style>
-  /* Notificación flotante */
-  .notificacion {
-      position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 15px 30px;
-      border-radius: 12px;
-      font-size: 20px;
-      font-weight: bold;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-      z-index: 1000;
-      text-align: center;
-  }
-  .notificacion.mostrar {
-      opacity: 1;
-      animation: flotar 2s ease-in-out;
-  }
-  @keyframes flotar {
-      0%, 100% { transform: translateX(-50%) scale(1); }
-      50% { transform: translateX(-50%) scale(1.05); }
-  }
-
-  /* Modal overlay */
-  .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      z-index: 2000;
-      justify-content: center;
-      align-items: center;
-  }
-  .modal-overlay.activo {
-      display: flex;
-      animation: fadeIn 0.3s ease;
-  }
-  @keyframes fadeIn {
-      from { opacity: 0; } to { opacity: 1; }
-  }
-
-  /* Modal contenido */
-  .modal-contenido {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 35px;
-      border-radius: 20px;
-      text-align: center;
-      color: white;
-      box-shadow: 0 15px 50px rgba(0,0,0,0.5);
-      animation: slideIn 0.3s ease;
-      max-width: 420px;
-      margin: 20px;
-  }
-  @keyframes slideIn {
-      from { transform: translateY(-30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-  }
-  .modal-contenido h2 {
-      margin: 0 0 15px 0;
-      font-size: 28px;
-  }
-  .modal-contenido p {
-      font-size: 18px;
-      margin: 0 0 25px 0;
-      line-height: 1.4;
-  }
-  .btn-reiniciar {
-      background: white;
-      color: #667eea;
-      border: none;
-      padding: 12px 35px;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .btn-reiniciar:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-  }
-  </style>
-
+    <!-- Scripts: utils.js primero (dependencia), luego cazando.js -->
+    <script src="utils.js"></script>
+    <script src="cazando.js"></script>
 </body>
 </html>
