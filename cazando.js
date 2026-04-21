@@ -20,11 +20,20 @@ imgGato.onload = function() {
     graficarComida();
 };
 
+const imgComida = new Image();
+imgComida.src = 'comida.png';
+
+imgComida.onload = function() {
+    limpiarCanvas();
+    graficarGato();
+    graficarComida();
+};
+
 // 🔹 CONSTANTES
-const ANCHO_GATO = 50;
-const ALTO_GATO = 50;
-const ANCHO_COMIDA = 20;
-const ALTO_COMIDA = 20;
+const ANCHO_GATO = 80;
+const ALTO_GATO = 80;
+const ANCHO_COMIDA = 50;
+const ALTO_COMIDA = 50;
 const MOVER_GATO = 10;
 
 // 🔹 REFERENCIAS AL DOM
@@ -43,7 +52,8 @@ function graficarGato() {
 }
 
 function graficarComida() {
-    graficarRectangulo(comidaX, comidaY, ANCHO_COMIDA, ALTO_COMIDA, "green");
+    // graficarRectangulo(comidaX, comidaY, ANCHO_COMIDA, ALTO_COMIDA, "green");
+    CTX.drawImage(imgComida, comidaX, comidaY, ANCHO_COMIDA, ALTO_COMIDA);
 }
 
 // 🔹 INICIALIZACIÓN
