@@ -112,7 +112,7 @@ function detectarColision() {
         }
 
         // ✅ Reiniciar tiempo al comer
-        tiempo = 15;
+        tiempo = 15;  // 🔄 Reinicia el tiempo a 15 segundos
         mostrarEnSpan("tiempo", tiempo);
 
         // 🔄 Generar comida en posición VÁLIDA (nunca encima del gato)
