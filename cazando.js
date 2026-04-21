@@ -11,6 +11,15 @@ let hintMostrada = false; // Controla si el mensaje de ayuda ya se ocultó
 
 let tiempoLimiteActual = 15; // Inicia en 15 segundos
 
+const imgGato = new Image();
+imgGato.src = 'gato.png';
+
+imgGato.onload = function() {
+    limpiarCanvas();
+    graficarGato();
+    graficarComida();
+};
+
 // 🔹 CONSTANTES
 const ANCHO_GATO = 50;
 const ALTO_GATO = 50;
@@ -29,7 +38,8 @@ function graficarRectangulo(x, y, ancho, alto, color) {
 }
 
 function graficarGato() {
-    graficarRectangulo(gatoX, gatoY, ANCHO_GATO, ALTO_GATO, "orange");
+    // graficarRectangulo(gatoX, gatoY, ANCHO_GATO, ALTO_GATO, "orange");
+    CTX.drawImage(imgGato, gatoX, gatoY, ANCHO_GATO, ALTO_GATO);
 }
 
 function graficarComida() {
