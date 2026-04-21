@@ -9,6 +9,8 @@ let intervaloTiempo;
 let juegoTerminado = false;
 let hintMostrada = false; // Controla si el mensaje de ayuda ya se ocultó
 
+let tiempoLimiteActual = 15; // Inicia en 15 segundos
+
 // 🔹 CONSTANTES
 const ANCHO_GATO = 50;
 const ALTO_GATO = 50;
@@ -88,7 +90,7 @@ function moverAbajo() {
 
 // 🔹 COLISIÓN Y LÓGICA PRINCIPAL
 function detectarColision() {
-    if (juegoTerminado) return; // 🚫 Bloquea lógica si ya ganó o perdió
+    if (juegoTerminado) return;
 
     if (
         gatoX < comidaX + ANCHO_COMIDA &&
@@ -100,24 +102,15 @@ function detectarColision() {
         puntaje++;
         mostrarEnSpan("puntos", puntaje);
 
-        // ✅ Condición de victoria exacta
-        if (puntaje === 6) {
-            juegoTerminado = true;
-            clearInterval(intervaloTiempo);
-            mostrarFinJuego(
-                "🏆 ¡Felicidades, Ganaste!",
-                `Puntaje final: ${puntaje}\n¡Eres un cazador experto!`
-            );
-            return;
+        // ✅ REQUERIMIENTO 3: Reducción de 1 segundo respecto al valor anterior
+        if (tiempoLimiteActual > 2) { // Seguridad para que el juego no sea imposible (mínimo 2s)
+            tiempoLimiteActual--; 
         }
-
-        // ✅ Reiniciar tiempo al comer
-        tiempo = 15;  // 🔄 Reinicia el tiempo a 15 segundos
+        
+        tiempo = tiempoLimiteActual; // El cronómetro ahora inicia desde el nuevo límite reducido
         mostrarEnSpan("tiempo", tiempo);
 
-        // 🔄 Generar comida en posición VÁLIDA (nunca encima del gato)
         validarEspacioComida();
-
         limpiarCanvas();
         graficarGato();
         graficarComida();
