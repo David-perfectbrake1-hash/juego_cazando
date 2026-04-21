@@ -18,7 +18,7 @@ body {
   align-items: center;
   min-height: 100vh;
   font-family: 'Roboto', sans-serif;
-  /* REQUERIMIENTO: Fondo de internet */
+  /* Fondo de internet */
   background-image: url('1776111746.png');
   background-size: cover;
   background-position: center;
@@ -35,6 +35,9 @@ body {
   box-shadow: 0 0 30px rgba(0,0,0,0.5);
   text-align: center;
   border: 2px solid var(--primary-color);
+  max-width: 550px; /* Evita que sea demasiado ancho en PC */
+  width: 90%;
+  margin: 20px;
 }
 
 h1 {
@@ -53,6 +56,10 @@ h1 {
 }
 
 canvas {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;     /* Ajuste responsive */
+  height: auto;        /* Mantiene proporción */
   background: #111;
   border: 4px solid #333;
   border-radius: 8px;
@@ -66,6 +73,7 @@ canvas {
   display: flex;
   justify-content: space-around;
   margin-top: 15px;
+  gap: 10px;
 }
 
 .stat-box {
@@ -73,6 +81,7 @@ canvas {
   padding: 10px 20px;
   border-radius: 10px;
   border-bottom: 3px solid var(--primary-color);
+  flex: 1;
 }
 
 .stat-box label {
@@ -103,6 +112,7 @@ canvas {
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s;
+  touch-action: manipulation; /* Optimiza el toque en móviles */
 }
 
 .btn-dir:hover {
@@ -111,7 +121,7 @@ canvas {
 }
 
 /* ========================================
-   BOTÓN DE REINICIAR
+   BOTONES DE ACCIÓN (REINICIAR)
    ======================================== */
 .btn-restart {
   margin-top: 20px;
@@ -132,7 +142,7 @@ canvas {
 }
 
 /* ========================================
-   MENSAJE DE AYUDA (HINT DE TECLADO) ✅ CORREGIDO
+   MENSAJE DE AYUDA Y ANIMACIONES
    ======================================== */
 #mensaje {
   font-family: 'Press Start 2P', cursive;
@@ -141,32 +151,19 @@ canvas {
   margin: 10px auto 15px;
   text-align: center;
   opacity: 0.85;
-  
-  /* ✅ Animación de pulso al cargar la página */
   animation: pulso-hint 2.5s infinite ease-in-out;
-  
-  /* ✅ Transición suave para cuando se oculte */
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* ✅ Clase que JS activa para desvanecer el mensaje */
 .hint-oculta {
   opacity: 0;
   transform: translateY(-10px);
   pointer-events: none;
 }
 
-/* ✅ Keyframes para el efecto de pulso */
 @keyframes pulso-hint {
-  0%, 100% { 
-    opacity: 0.85; 
-    transform: scale(1); 
-  }
-  50% { 
-    opacity: 1; 
-    transform: scale(1.02); 
-    text-shadow: 0 0 6px var(--accent-color); 
-  }
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.02); opacity: 1; text-shadow: 0 0 6px var(--accent-color); }
 }
 
 /* ========================================
@@ -202,7 +199,7 @@ canvas {
 }
 
 /* ========================================
-   MODAL DE FIN DE JUEGO
+   MODALES DE FIN DE JUEGO
    ======================================== */
 .modal-overlay {
   display: none;
@@ -242,17 +239,6 @@ canvas {
   to { transform: translateY(0); opacity: 1; }
 }
 
-.modal-contenido h2 {
-  margin: 0 0 15px 0;
-  font-size: 28px;
-}
-
-.modal-contenido p {
-  font-size: 18px;
-  margin: 0 0 25px 0;
-  line-height: 1.4;
-}
-
 .btn-reiniciar {
   background: white;
   color: #667eea;
@@ -262,10 +248,35 @@ canvas {
   font-weight: bold;
   border-radius: 30px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s;
 }
 
-.btn-reiniciar:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+/* ========================================
+   MEDIA QUERIES (PARA MÓVILES)
+   ======================================== */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 18px;
+  }
+
+  .main-container {
+    padding: 15px;
+    width: 95%;
+    margin: 10px auto;
+  }
+
+  .btn-dir {
+    padding: 20px;
+    font-size: 24px;
+    width: 60px; /* Hace los botones más uniformes */
+  }
+
+  .stat-box span {
+    font-size: 14px;
+  }
+
+  .modal-contenido {
+    padding: 20px;
+    width: 90%;
+  }
 }
